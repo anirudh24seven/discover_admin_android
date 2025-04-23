@@ -105,6 +105,7 @@ fun QRScreen() {
 
                         Button(onClick = {
                             val intent = Intent(context, ProfileActivity::class.java)
+                            intent.putExtra("qrValue", scanResult)
                             context.startActivity(intent)
                         }) {
                             Text("Continue")
@@ -116,18 +117,13 @@ fun QRScreen() {
     }
 }
 
-@Composable
-fun LiveView() {
-    LiveView(url = "http://192.168.0.165:4000/home")
-}
-
-
 class ProfileActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val qrValue = intent.getStringExtra("qrValue") ?: "Unknown"
         setContent {
-            LiveView()
+            LiveView(url = "http://192.168.0.165:4000/home/$qrValue")
         }
     }
 }
