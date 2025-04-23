@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.roborazzi)
+    alias(libs.plugins.com.strumenta.antlr.kotlin)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -28,6 +31,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -43,7 +47,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -56,6 +59,46 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.0")
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui.text.google.fonts)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.antlr4.runtime)
+    implementation(libs.com.google.code.gson)
+    implementation(libs.com.google.code.gson)
+    implementation(libs.com.github.dsrees.javaphoenixclient)
+    implementation(libs.com.github.liveview.native.core.jetpack)
+    implementation(libs.com.strumenta.antlr.kotlin.runtime)
+
+    implementation(libs.net.java.dev.jna)
+    implementation(libs.org.jsoup)
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+
+    // These dependencies are exported to consumers, that is to say found on their compile classpath.
+    api(libs.org.jetbrains.kotlinx.collections.immutable)
 
     implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
 }

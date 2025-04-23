@@ -29,13 +29,15 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import com.toastmasters.discoveradmin.ui.theme.DiscoverAdminTheme
+import org.phoenixframework.liveview.ui.phx_components.LiveView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApp()
+            // MyApp()
+            LiveView(url = "http://192.168.0.165:4000/home")
         }
     }
 }
