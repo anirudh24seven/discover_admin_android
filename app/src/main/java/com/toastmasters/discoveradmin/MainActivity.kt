@@ -1,5 +1,6 @@
-package com.example.myapp
+package com.toastmasters.discoveradmin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
@@ -35,21 +34,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
-            // MyApp()
-            LiveView(url = "http://192.168.0.165:4000/home")
+            QRScreen()
         }
     }
 }
 
 @Composable
-fun MyApp() {
-    val applicationContext = LocalContext.current.applicationContext
-
-    var scanResult by remember { mutableStateOf("Scan result:") }
-
+fun QRScreen() {
     DiscoverAdminTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            val applicationContext = LocalContext.current.applicationContext
+            var scanResult by remember { mutableStateOf("Scan result:") }
+            var showContinue by remember { mutableStateOf(false) }
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -77,6 +76,7 @@ fun MyApp() {
                                     Toast.LENGTH_LONG
                                 ).show()
                                 scanResult = barcode.rawValue.toString()
+                                showContinue = true
                             }
                             .addOnCanceledListener {
                                 // Task canceled
@@ -99,6 +99,17 @@ fun MyApp() {
                         Text("Scan QR")
                     }
                     Text(scanResult)
+
+                    if (showContinue) {
+                        val context = LocalContext.current
+
+                        Button(onClick = {
+                            val intent = Intent(context, ProfileActivity::class.java)
+                            context.startActivity(intent)
+                        }) {
+                            Text("Continue")
+                        }
+                    }
                 }
             }
         }
@@ -106,17 +117,17 @@ fun MyApp() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun LiveView() {
+    LiveView(url = "http://192.168.0.165:4000/home")
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DiscoverAdminTheme {
-        Greeting("Android")
+
+class ProfileActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            LiveView()
+        }
     }
 }
