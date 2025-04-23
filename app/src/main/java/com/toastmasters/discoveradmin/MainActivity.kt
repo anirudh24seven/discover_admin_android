@@ -108,7 +108,7 @@ fun QRScreen() {
                             intent.putExtra("qrValue", scanResult)
                             context.startActivity(intent)
                         }) {
-                            Text("Continue")
+                            Text("Get details")
                         }
                     }
                 }
